@@ -1,7 +1,7 @@
 <template>
   <div
     class="board-column"
-    draggable
+    :draggable="isDraggable"
     @dragenter.prevent
     @dragover.prevent
     @dragstart.self="pickupColumn($event)"
@@ -13,6 +13,8 @@
         <editable-text
           ref="columnName"
           v-model="column.name"
+          @editableText:edit-mode-disabled="enableDrag"
+          @editableText:edit-mode-enabled="disableDrag"
           @editableText:text-edited="onTextEdited"
         />
       </div>
@@ -96,6 +98,7 @@ export default {
   data() {
     return {
       taskName: '',
+      isDraggable: true,
     };
   },
   computed: {
@@ -217,6 +220,12 @@ export default {
       'moveTaskWithId',
       'moveColumnWithId',
     ]),
+    disableDrag() {
+      this.isDraggable = false;
+    },
+    enableDrag() {
+      this.isDraggable = true;
+    },
   },
   components: {
     Task,
