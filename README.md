@@ -28,7 +28,7 @@ The front end also uses [SASS](https://sass-lang.com/) preprocessor in order to 
 
 ------
 
-*Please note that the current version of daytask is just a **minimal viable product** created by Damien BOURGEOIS in **8 days**.*
+*Please note that the current version of daytask is just a **minimum viable product** created by Damien BOURGEOIS in **8 days**.*
 
 *Some **features will be added in the future** and **improvements will be made** to make the project **more maintainable** and **more efficient**.* 
 
