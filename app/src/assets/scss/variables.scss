@@ -1,0 +1,118 @@
+// TODO : Implement lighten($color, percentage) and darken($color, percentage)
+
+$primary-color : #0094ae;
+$primary-color-80: rgba($primary-color, 0.8);
+$secondary-color: #00aecc;
+$success-color:#42b983;
+$error-color: red;
+$white: #fff;
+$global-border-radius:4px;
+$global-transition:0.15s all ease-in; 
+$global-transition-fast:0.1s all ease-in; 
+$text-color:#2c3e50;
+$title-font-size:1.25rem;
+$global-shadow:0 2px 2px 1px rgba(0,0,0,0.15);
+$global-font-family: Montserrat, Helvetica, sans-serif;
+$global-font-size:1em;
+
+$board-background-color:rgba(240, 248, 255, 0.767);
+$board-background-color-hover:$white;
+$board-shadow:$global-shadow;
+$board-grabbed-shadow: 0 2px 2px 2px #00939e;
+
+$button-color:$white;
+
+$button-form-background-color:$primary-color;
+$button-form-background-color-hover:$primary-color-80;
+
+$button-navigation-background-color:rgba(255, 255, 255, 0.18);
+$button-navigation-background-color-hover:rgba(255, 255, 255, 0.25);
+
+$button-navigation-color:$white;
+
+$dropdown-menu-background-color:$white;
+
+$editable-text-border-color:$primary-color;
+
+$form-background-color:$white;
+$form-shadow:$global-shadow;
+
+$link-form-color:$primary-color;
+
+$logo-color:$white;
+$logo-font-family:Modulus, Helvetica, sans-serif;
+$logo-font-weight:700;
+$logo-font-size:1.5rem;
+
+$modal-background-color:$white;
+$modal-shadow: $global-shadow;
+
+$nav-color:rgba(255, 255, 255, 0.8);
+$nav-color-hover:$white;
+
+$notification-color:$white;
+$notification-shadow: $global-shadow;
+
+$notification-success-background:linear-gradient(to right, #16c0b0, #84cf6a);
+
+$notification-error-background:linear-gradient(to right, red, orangered);
+
+$scrollbar-thumb-background-color: rgba(240, 248, 255, 0.5);
+$scrollbar-track-background-color: rgba(0, 0, 0, 0.15);
+
+$task-background-color-hover:$white;
+$task-background-color:rgba($white, 0.75);
+$task-transition:$global-transition-fast;
+$task-shadow:$global-shadow;
+
+
+// TODO : Create a function to automatically create :root 
+:root {
+  --board-background-color-hover: #{$board-background-color-hover};
+  --board-background-color: #{$board-background-color};
+  --board-shadow: #{$board-shadow};
+  --button-color: #{$button-color};
+  --button-form-background-color-hover: #{$button-form-background-color-hover};
+  --button-form-background-color: #{$button-form-background-color};
+  --button-navigation-background-color-hover: #{$button-navigation-background-color-hover};
+  --button-navigation-background-color: #{$button-navigation-background-color};
+  --button-navigation-color: #{$button-navigation-color};
+  --dropdown-menu-background-color: #{$dropdown-menu-background-color};
+  --editable-text-border-color: #{$editable-text-border-color};
+  --error-color : #{$error-color};
+  --form-background-color: #{$form-background-color};
+  --form-shadow:#{$form-shadow};
+  --global-border-radius:#{$global-border-radius};
+  --global-font-family: #{$global-font-family};
+  --global-font-size: #{$global-font-size};
+  --global-shadow: #{$global-shadow};
+  --global-transition-fast: #{$global-transition-fast};
+  --global-transition:#{$global-transition};
+  --link-form-color: #{$link-form-color};
+  --logo-color: #{$logo-color};
+  --logo-font-family: #{$logo-font-family};
+  --logo-font-size: #{$logo-font-size};
+  --logo-font-weight: #{$logo-font-weight};
+  --modal-background-color: #{$modal-background-color};
+  --modal-shadow: #{$modal-shadow};
+  --nav-color-hover: #{$nav-color-hover};
+  --nav-color: #{$nav-color};
+  --notification-color: #{$notification-color};
+  --notification-error-background: #{$notification-error-background};
+  --notification-shadow: #{$notification-shadow};
+  --notification-success-background: #{$notification-success-background};
+  --primary-color : #{$primary-color};
+  --primary-color-80: #{primary-color-80};
+  --scrollbar-thumb-background-color:#{$scrollbar-thumb-background-color};
+  --scrollbar-track-background-color:#{$scrollbar-track-background-color};
+  --secondary-color: #{$secondary-color};
+  --success-color : #{$success-color};
+  --task-background-color-hover: #{$task-background-color-hover};
+  --task-background-color: #{$task-background-color};
+  --task-shadow:#{$task-shadow};
+  --task-transition: #{$task-transition};
+  --text-color:#{$text-color};
+  --title-font-size:#{$title-font-size};
+  --white: #{$white};
+}
+
