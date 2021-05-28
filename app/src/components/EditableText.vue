@@ -83,6 +83,7 @@ export default {
     },
     value(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
+        this.editedText = newValue;
         this.text = newValue;
       }
     },
