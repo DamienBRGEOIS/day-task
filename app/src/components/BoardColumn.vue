@@ -172,6 +172,7 @@ export default {
     },
     onDrop(event, destinationIndex) {
       const type = event.dataTransfer.getData('type');
+
       if (type === 'task') {
         this.onDropTask(event, destinationIndex);
       } else if (type === 'column') {
@@ -192,6 +193,10 @@ export default {
     },
     onDropColumn(event) {
       const fromColumnId = event.dataTransfer.getData('from-column-id');
+
+      if (this.column._id === fromColumnId) {
+        return;
+      }
 
       this.moveColumnWithId({
         boardId: this.getBoard._id,
