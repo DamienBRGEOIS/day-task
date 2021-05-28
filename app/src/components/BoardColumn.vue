@@ -180,13 +180,18 @@ export default {
       }
     },
     onDropTask(event, destinationIndex) {
-      const taskId = event.dataTransfer.getData('task-id');
+      const fromTaskId = event.dataTransfer.getData('task-id');
       const fromColumnId = event.dataTransfer.getData('from-column-id');
+      const toTaskId = this.column.tasks[destinationIndex]._id;
+
+      if (fromTaskId === toTaskId) {
+        return;
+      }
 
       this.moveTaskWithId({
         boardId: this.getBoard._id,
         columnId: fromColumnId,
-        taskId,
+        taskId: fromTaskId,
         toColumnId: this.column._id,
         destinationIndex,
       });
