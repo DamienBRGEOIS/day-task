@@ -97,11 +97,11 @@ export default {
 
 <style lang="scss" scoped>
 .editable-text {
-  cursor: pointer;
   display: inline-block;
   width: calc(100% - 1rem);
 
   .editable-text__text {
+    cursor: pointer;
     font-size: var(--font-size);
     font-weight: var(--font-weight);
     overflow-wrap: break-word;
