@@ -54,11 +54,15 @@ export default {
       this.isEditModeEnabled = false;
     },
     editText() {
-      if (this.value !== this.editedText && this.editedText.trim() !== '') {
-        this.$emit('editableText:text-edited', this.editedText);
-        this.text = this.editedText;
+      if (this.text !== this.editedText) {
+        if (this.editedText.trim() !== '') {
+          this.$emit('editableText:text-edited', this.editedText);
+          this.text = this.editedText;
+        } else {
+          this.editedText = this.text;
+        }
       }
-      this.isEditModeEnabled = false;
+      this.disableEditMode();
     },
   },
   computed: {
