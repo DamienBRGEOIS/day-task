@@ -49,9 +49,11 @@ export default {
   methods: {
     enableEditMode() {
       this.isEditModeEnabled = true;
+      this.$emit('editableText:edit-mode-enabled');
     },
     disableEditMode() {
       this.isEditModeEnabled = false;
+      this.$emit('editableText:edit-mode-disabled');
     },
     editText() {
       if (this.text !== this.editedText) {
