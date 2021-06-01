@@ -8,26 +8,26 @@
     @dragend.self="$el.classList.remove('grabbed')"
     @drop="onDrop($event)"
   >
-    <div class="column-handle">
-      <div class="column-title">
-        <editable-text
-          ref="columnName"
-          v-model="column.name"
-          @editableText:edit-mode-disabled="enableDrag"
-          @editableText:edit-mode-enabled="disableDrag"
-          @editableText:text-edited="onTextEdited"
-        />
-      </div>
-      <div class="column-more-icon">
-        <dropdown-menu
-          :menu-items="moreMenuItems"
-          @board-column:delete="confirmDeleteColumn"
-          @board-column:edit="editColumnName"
-        >
-          <font-awesome-icon icon="ellipsis-h" />
-        </dropdown-menu>
-      </div>
+    <div class="column-title">
+      <editable-text
+        ref="columnName"
+        v-model="column.name"
+        :enforceUppercase="true"
+        :fontWeight="600"
+        @editableText:edit-mode-disabled="enableDrag"
+        @editableText:edit-mode-enabled="disableDrag"
+        @editableText:text-edited="onTextEdited"
+      />
     </div>
+    <dropdown-menu
+      :menu-items="moreMenuItems"
+      @board-column:delete="confirmDeleteColumn"
+      @board-column:edit="editColumnName"
+    >
+      <div class="column-more-icon">
+        <font-awesome-icon icon="ellipsis-h" />
+      </div>
+    </dropdown-menu>
     <div class="tasks-container" v-if="column.tasks && column.tasks.length > 0">
       <task
         v-for="(task, $taskIndex) in column.tasks"
@@ -47,14 +47,14 @@
         openBackgroundColor="transparent"
         textColor="inherit"
         triggerTextAlign="left"
-        :contentPaddingX="0.5"
-        :contentPaddingY="0.5"
+        :contentPaddingX="0"
+        :contentPaddingY="0"
         :triggerPaddingX="1.375"
         :triggerPaddingY="0.75"
         @open-button:opened="onOpen"
         @open-button:outside-click="clearFields"
       >
-        <form @submit.prevent="addTask" ref="form">
+        <form @submit.prevent="addTask" ref="form" id="form">
           <textarea
             autocomplete="off"
             id="task-name"
@@ -248,15 +248,21 @@ export default {
 
 <style lang="scss" scoped>
 .board-column {
-  align-content: flex-start;
   background-color: var(--board-background-color);
   border-radius: var(--global-border-radius);
+  column-gap: 1rem;
   cursor: grab;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "column-name column-button"
+    "column-content column-content"
+    "column-add-task column-add-task";
   margin-right: 1rem;
   max-width: 22.5rem;
   min-width: 21.875rem;
+  padding: 0.703rem;
   user-select: none;
 
   &.grabbed {
@@ -265,66 +271,52 @@ export default {
     transform: translateY(-0.125rem);
   }
 
-  .column-handle {
-    height: 1rem;
-    padding: 1rem;
+  .column-title {
+    padding-bottom: 0.5rem;
+    text-align: left;
     width: 100%;
+    height: 1.75rem;
+  }
 
-    .column-title {
-      cursor: pointer;
-      cursor: inherit;
-      display: inline-block;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-align: left;
-      width: calc(100% - 1rem);
+  .column-more-icon {
+    cursor: pointer;
+    font-size: 1rem;
+    grid-area: column-button;
+    padding: 0.375rem;
+    border-radius: var(--global-border-radius);
+    transition: var(--global-transition);
 
-      .column-title-text {
-        cursor: pointer;
-      }
-      .column-title-input {
-        border-radius: var(--global-border-radius);
-        border: 2px solid var(--primary-color);
-        font-size: var(--global-font-size);
-        font-weight: 700;
-        left: -0.25rem;
-        padding: 0.25rem;
-        position: relative;
-        top: -0.25rem;
-        width: calc(100% - 1rem);
-      }
-    }
-
-    .column-more-icon {
-      cursor: pointer;
-      display: inline-block;
-      position: relative;
-      width: 1rem;
+    &:hover {
+      background-color: rgba(31, 60, 73, 0.08);
     }
   }
 
   .tasks-container {
-    max-width: calc(100% - 2rem);
-    padding: 0 1rem;
-    position: relative;
+    grid-area: column-content;
     text-align: left;
-    width: 100%;
   }
 
   .add-task {
-    padding: 0.5rem;
+    margin-top: 0.5rem;
     width: 100%;
+    grid-area: column-add-task;
+    font-size: var(--global-font-size);
 
-    #task-name {
-      border-radius: var(--global-border-radius);
-      border: none;
-      border: 2px solid var(--primary-color);
-      box-shadow: none;
-      font-family: inherit;
-      margin-bottom: 0.25rem;
-      padding: 0.5rem 0.75rem;
-      resize: none;
-      width: calc(100% - 1.875rem);
+    #form {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+
+      #task-name {
+        border-radius: var(--global-border-radius);
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+        font-family: inherit;
+        grid-area: column-name;
+        margin-bottom: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        resize: none;
+      }
     }
   }
 }

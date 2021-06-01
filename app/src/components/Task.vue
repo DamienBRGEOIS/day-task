@@ -14,8 +14,9 @@
     <div class="task-more-icon">
       <dropdown-menu
         :menu-items="moreMenuItems"
-        @board-column:delete="confirmDeleteTask"
-        @board-column:edit="goToTask"
+        :right-offset="1.5"
+        @task-column:delete="confirmDeleteTask"
+        @task-column:edit="goToTask"
       >
         <font-awesome-icon icon="ellipsis-h" />
       </dropdown-menu>
@@ -110,12 +111,12 @@ export default {
         {
           title: 'Edit task',
           icon: 'pen',
-          event: 'board-column:edit',
+          event: 'task-column:edit',
         },
         {
           title: 'Delete task',
           icon: 'trash-alt',
-          event: 'board-column:delete',
+          event: 'task-column:delete',
         },
       ];
     },
@@ -129,9 +130,15 @@ export default {
 
 <style lang="scss" scoped>
 .task {
+  display: grid;
   background-color: var(--task-background-color);
   border-radius: var(--global-border-radius);
   cursor: pointer;
+  grid-template-areas:
+    "name button"
+    "content content";
+  grid-template-columns: 1fr 1rem;
+  grid-template-rows: auto 1fr;
   margin-bottom: 0.5rem;
   padding: 0.75rem;
   transition: var(--task-transition);
@@ -143,25 +150,24 @@ export default {
 
   &:hover {
     background-color: var(--task-background-color-hover);
-    transform: scale(1.01);
   }
 
   .task-name {
-    display: inline-block;
     font-weight: 600;
     overflow-wrap: break-word;
     white-space: normal;
-    width: calc(100% - 1rem);
+    grid-area: name;
+    font-size: var(--task-name-font-size);
   }
 
   .task-more-icon {
     color: rgba(0, 0, 0, 0.65);
-    display: inline-block;
-    position: absolute;
+    grid-area: button;
   }
 
   .task-description {
     font-weight: 400;
+    grid-area: content;
     margin-block: 0;
     overflow-wrap: break-word;
     padding: 0.5rem 0;

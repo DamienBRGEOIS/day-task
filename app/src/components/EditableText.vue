@@ -2,7 +2,7 @@
   <div class="editable-text" :style="style">
     <span
       class="editable-text__text"
-      v-if="!isEditModeEnabled"
+      v-show="!isEditModeEnabled"
       @click.prevent="enableEditMode"
     >
       {{ text }}
@@ -13,7 +13,7 @@
       name="column-title-input"
       ref="textInput"
       type="text"
-      v-if="isEditModeEnabled"
+      v-show="isEditModeEnabled"
       v-model="editedText"
       @change="editText"
       @click.prevent
@@ -30,13 +30,25 @@ export default {
     value: {
       type: String,
     },
+    height: {
+      type: Number,
+      default: 1.75,
+    },
     fontSize: {
       type: Number,
-      default: 1,
+      default: 0.906,
     },
     fontWeight: {
       type: Number,
       default: 700,
+    },
+    maxInputWidth: {
+      type: Number,
+      default: 700,
+    },
+    enforceUppercase: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -72,6 +84,8 @@ export default {
       return {
         '--font-size': `${this.fontSize}rem`,
         '--font-weight': this.fontWeight,
+        '--text-transform': this.enforceUppercase ? 'uppercase' : 'none',
+        '--height': `${this.height}rem`,
       };
     },
   },
@@ -100,26 +114,43 @@ export default {
 <style lang="scss" scoped>
 .editable-text {
   display: inline-block;
-  width: calc(100% - 1rem);
+  width: 100%;
 
   .editable-text__text {
+    border-radius: var(--global-border-radius);
+    box-sizing: border-box;
     cursor: pointer;
+    display: inline-block;
     font-size: var(--font-size);
     font-weight: var(--font-weight);
+    height: var(--height);
+    line-height: var(--height);
+    max-height: var(--height);
     overflow-wrap: break-word;
+    padding: 0 0.375rem;
+    position: relative;
+    text-transform: var(--text-transform);
+    transition: var(--global-transition);
     white-space: normal;
+
+    &:hover {
+      background-color: rgba(31, 60, 73, 0.08);
+    }
   }
 
   .editable-text__input {
     border-radius: var(--global-border-radius);
     border: 2px solid var(--primary-color);
+    box-sizing: border-box;
+    display: inline-block;
     font-size: var(--font-size);
     font-weight: var(--font-weight);
-    left: -0.25rem;
-    padding: 0.25rem;
+    height: var(--height);
+    max-height: var(--height);
+    padding: 0 0.25rem;
     position: relative;
-    top: -0.25rem;
-    width: calc(100% - 1rem);
+    text-transform: var(--text-transform);
+    width: 100%;
   }
 }
 </style>

@@ -35,7 +35,7 @@ export default {
     },
     hoverBackgroundColor: {
       type: String,
-      default: 'rgba(255,255,255,0.35)',
+      default: 'rgba(31, 60, 73, 0.08)',
     },
     marginX: {
       type: Number,
