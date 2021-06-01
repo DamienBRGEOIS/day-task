@@ -5,16 +5,16 @@
       v-model="board.name"
       @editableText:text-edited="onTextEdited"
     />
-    <div class="board__icon-container" v-if="isEditable">
-      <dropdown-menu
-        :menu-items="moreMenuItems"
-        @delete="onDelete"
-        @share="onShare"
-        @edit="editBoardName"
-      >
+    <dropdown-menu
+      :menu-items="moreMenuItems"
+      @delete="onDelete"
+      @share="onShare"
+      @edit="editBoardName"
+    >
+      <div class="board__more-icon" v-if="isEditable">
         <font-awesome-icon icon="ellipsis-h" />
-      </dropdown-menu>
-    </div>
+      </div>
+    </dropdown-menu>
   </div>
 </template>
 
@@ -88,6 +88,13 @@ export default {
 .board {
   background-color: var(--board-background-color);
   border-radius: var(--global-border-radius);
+  column-gap: 1rem;
+  display: grid;
+  grid-template-areas:
+    "board-name board-button"
+    "board-infos board-infos";
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
   margin-bottom: 0.875rem;
   margin-right: 0.875rem;
   min-height: 3.75rem;
@@ -98,27 +105,18 @@ export default {
 
   &:hover {
     background-color: var(--board-background-color-hover);
-    box-shadow: var(--board-shadow);
-    transform: scale(1.02);
-
-    .board__icon-container {
-      .board__icon-container__icon {
-        color: rgba(0, 0, 0, 0.4);
-        visibility: visible;
-      }
-    }
   }
 
-  .board__icon-container {
-    display: inline-block;
-    position: absolute;
+  .board__more-icon {
+    border-radius: var(--global-border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    grid-area: board-button;
+    padding: 0.375rem;
+    transition: var(--global-transition);
 
-    .board__icon-container__icon {
-      visibility: hidden;
-
-      &:hover {
-        color: rgba(0, 0, 0, 0.7);
-      }
+    &:hover {
+      background-color: rgba(31, 60, 73, 0.08);
     }
   }
 }
