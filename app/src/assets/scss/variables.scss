@@ -13,7 +13,7 @@ $text-color:#2c3e50;
 $title-font-size:1.25rem;
 $global-shadow:0 2px 2px 1px rgba(0,0,0,0.15);
 $global-font-family: Montserrat, Helvetica, sans-serif;
-$global-font-size:1em;
+$global-font-size:0.906em;
 
 $board-background-color:rgba(240, 248, 255, 0.767);
 $board-background-color-hover:$white;
@@ -62,8 +62,9 @@ $scrollbar-track-background-color: rgba(0, 0, 0, 0.15);
 
 $task-background-color-hover:$white;
 $task-background-color:rgba($white, 0.75);
-$task-transition:$global-transition-fast;
+$task-name-font-size:0.906rem;
 $task-shadow:$global-shadow;
+$task-transition:$global-transition-fast;
 
 
 // TODO : Create a function to automatically create :root 
@@ -109,6 +110,7 @@ $task-shadow:$global-shadow;
   --success-color : #{$success-color};
   --task-background-color-hover: #{$task-background-color-hover};
   --task-background-color: #{$task-background-color};
+  --task-name-font-size: #{$task-name-font-size};
   --task-shadow:#{$task-shadow};
   --task-transition: #{$task-transition};
   --text-color:#{$text-color};
