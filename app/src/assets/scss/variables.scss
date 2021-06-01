@@ -17,7 +17,6 @@ $global-font-size:0.906em;
 
 $board-background-color:rgba(240, 248, 255, 0.767);
 $board-background-color-hover:$white;
-$board-shadow:$global-shadow;
 $board-grabbed-shadow: 0 2px 2px 2px #00939e;
 
 $button-color:$white;
@@ -71,7 +70,6 @@ $task-transition:$global-transition-fast;
 :root {
   --board-background-color-hover: #{$board-background-color-hover};
   --board-background-color: #{$board-background-color};
-  --board-shadow: #{$board-shadow};
   --button-color: #{$button-color};
   --button-form-background-color-hover: #{$button-form-background-color-hover};
   --button-form-background-color: #{$button-form-background-color};
