@@ -5,23 +5,20 @@
       v-model="board.name"
       @editableText:text-edited="onTextEdited"
     />
-    <dropdown-menu
-      :menu-items="moreMenuItems"
-      @delete="onDelete"
-      @share="onShare"
-      @edit="editBoardName"
+    <div
+      class="board__more-icon"
+      v-if="isEditable"
+      @click.stop.prevent="onMoreButtonClicked"
     >
-      <div class="board__more-icon" v-if="isEditable">
-        <font-awesome-icon icon="ellipsis-h" />
-      </div>
-    </dropdown-menu>
+      <font-awesome-icon icon="ellipsis-h" />
+    </div>
   </div>
 </template>
 
 <script>
-import DropdownMenu from '@/components/DropdownMenu.vue';
+import DropdownEventBus from '@/events/DropdownEventBus';
 import EditableText from '@/components/EditableText.vue';
-import ModalEventBus from '@/events/modal-event-bus';
+import ModalEventBus from '@/events/ModalEventBus';
 
 export default {
   name: 'board',
@@ -35,28 +32,41 @@ export default {
       default: true,
     },
   },
-  computed: {
-    moreMenuItems() {
-      return [
-        {
-          title: 'Edit board',
-          icon: 'pen',
-          event: 'edit',
-        },
-        {
-          title: 'Share board',
-          icon: 'link',
-          event: 'share',
-        },
-        {
-          title: 'Delete board',
-          icon: 'trash-alt',
-          event: 'delete',
-        },
-      ];
-    },
-  },
   methods: {
+    onMoreButtonClicked(event) {
+      const target = event.currentTarget;
+
+      DropdownEventBus.$emit('open-dropdown-menu', {
+        target,
+        items: [
+          {
+            title: 'Edit board',
+            icon: 'pen',
+            action: this.editBoardName,
+          },
+          {
+            title: 'Share board',
+            icon: 'link',
+            action: this.onShare,
+          },
+          {
+            title: 'Delete board',
+            icon: 'trash-alt',
+            action: this.onDelete,
+          },
+        ],
+        onOpen: this.addFocusClass.bind(this, target),
+        onClose: this.removeFocusClass.bind(this, target),
+      });
+    },
+    addFocusClass(target) {
+      this.$el.classList.add('focused');
+      target.classList.add('focused');
+    },
+    removeFocusClass(target) {
+      this.$el.classList.remove('focused');
+      target.classList.remove('focused');
+    },
     onDelete() {
       if (!this.isEditable) {
         return;
@@ -79,7 +89,6 @@ export default {
   },
   components: {
     EditableText,
-    DropdownMenu,
   },
 };
 </script>
@@ -103,7 +112,8 @@ export default {
   text-align: left;
   transition: var(--global-transition);
 
-  &:hover {
+  &:hover,
+  &.focused {
     background-color: var(--board-background-color-hover);
   }
 
@@ -115,6 +125,7 @@ export default {
     padding: 0.375rem;
     transition: var(--global-transition);
 
+    &.focused,
     &:hover {
       background-color: rgba(31, 60, 73, 0.08);
     }

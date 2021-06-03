@@ -1,20 +1,17 @@
-@-webkit-keyframes scale-up-center {
+@keyframes scale-up-center {
   0% {
-    -webkit-transform: scale(0.5);
     transform: scale(0.5);
   }
   100% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
 }
-@keyframes scale-up-center {
+
+@keyframes slide-top {
   0% {
-    -webkit-transform: scale(0.5);
-    transform: scale(0.5);
+    transform: translateY(30px);
   }
   100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
+    transform: translateY(0);
   }
 }

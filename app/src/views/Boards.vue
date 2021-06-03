@@ -53,7 +53,7 @@
 <script>
 import MorphingButton from '@/components/MorphingButton.vue';
 import Board from '@/components/Board.vue';
-import ModalEventBus from '@/events/modal-event-bus';
+import ModalEventBus from '@/events/ModalEventBus';
 import ShareModal from '@/components/ShareModal.vue';
 import authComputed from '@/store/helpers/authHelper';
 import { mapActions, mapState } from 'vuex';

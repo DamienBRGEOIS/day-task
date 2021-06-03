@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import ModalEventBus from '@/events/modal-event-bus';
+import ModalEventBus from '@/events/ModalEventBus';
 
 export default {
   data() {
@@ -52,9 +52,12 @@ export default {
   },
   mounted() {
     ModalEventBus.$on('open-confirm-modal', (config) => {
-      this.isOpen = true;
       this.config = config;
+      this.isOpen = true;
     });
+  },
+  beforeDestroy() {
+    ModalEventBus.$off();
   },
 };
 </script>

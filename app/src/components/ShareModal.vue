@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import ModalEventBus from '@/events/modal-event-bus';
+import ModalEventBus from '@/events/ModalEventBus';
 import InvitesService from '@/services/invitesService';
 import config from '../../config/config';
 
