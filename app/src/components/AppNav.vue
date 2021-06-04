@@ -14,45 +14,43 @@
       </router-link>
     </div>
     <div v-else id="nav__logged-in-user">
-      <dropdown-menu
-        :rightOffset="1"
-        :topOffset="0.625"
-        :menu-items="moreMenuItems"
-        @logout="logout"
+      <div
+        id="nav__logged-in-user__username"
+        @click.stop.prevent="onMoreButtonClicked"
       >
-        <div id="nav__logged-in-user__username">
-          {{ username }}
-        </div>
-      </dropdown-menu>
+        {{ username }}
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
+import DropdownEventBus from '@/events/DropdownEventBus';
 import authComputed from '@/store/helpers/authHelper';
-import DropdownMenu from '@/components/DropdownMenu.vue';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'AppNav',
   computed: {
-    moreMenuItems() {
-      return [
-        {
-          title: 'Logout',
-          icon: 'sign-out-alt',
-          event: 'logout',
-        },
-      ];
-    },
     ...authComputed,
   },
   methods: {
+    onMoreButtonClicked(event) {
+      DropdownEventBus.$emit('open-dropdown-menu', {
+        target: event.currentTarget,
+        items: [
+          {
+            title: 'Logout',
+            icon: 'sign-out-alt',
+            action: this.logout,
+          },
+        ],
+        topOffset: 16,
+      });
+    },
     ...mapActions('auth', ['logout']),
   },
-  components: {
-    DropdownMenu,
-  },
+  components: {},
 };
 </script>
 

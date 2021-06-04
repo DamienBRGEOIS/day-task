@@ -11,15 +11,8 @@
     <div class="task-name">
       {{ task.name }}
     </div>
-    <div class="task-more-icon">
-      <dropdown-menu
-        :menu-items="moreMenuItems"
-        :right-offset="1.5"
-        @task-column:delete="confirmDeleteTask"
-        @task-column:edit="goToTask"
-      >
-        <font-awesome-icon icon="ellipsis-h" />
-      </dropdown-menu>
+    <div class="task-more-icon" @click.stop.prevent="onMoreButtonClicked">
+      <font-awesome-icon icon="ellipsis-h" />
     </div>
     <p class="task-description" v-if="task.description">
       <small>{{ task.description }}</small>
@@ -28,8 +21,8 @@
 </template>
 
 <script>
-import DropdownMenu from '@/components/DropdownMenu.vue';
-import ModalEventBus from '@/events/modal-event-bus';
+import DropdownEventBus from '@/events/DropdownEventBus';
+import ModalEventBus from '@/events/ModalEventBus';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -92,8 +85,34 @@ export default {
         },
       });
     },
-    onMoreIconCliked() {
-      this.$emit('task:more-icon-clicked', this.task._id);
+    onMoreButtonClicked(event) {
+      const target = event.currentTarget;
+
+      DropdownEventBus.$emit('open-dropdown-menu', {
+        target,
+        items: [
+          {
+            title: 'Edit task',
+            icon: 'pen',
+            action: this.goToTask,
+          },
+          {
+            title: 'Delete task',
+            icon: 'trash-alt',
+            action: this.confirmDeleteTask,
+          },
+        ],
+        onOpen: this.addFocusClass.bind(this, target),
+        onClose: this.removeFocusClass.bind(this, target),
+      });
+    },
+    addFocusClass(target) {
+      this.$el.classList.add('focused');
+      target.classList.add('focused');
+    },
+    removeFocusClass(target) {
+      this.$el.classList.remove('focused');
+      target.classList.remove('focused');
     },
     onDrop(event) {
       this.$emit('dropped', event, this.taskIndex);
@@ -106,24 +125,7 @@ export default {
         (column) => column.tasks.findIndex((task) => task._id === this.task._id) !== -1,
       )._id;
     },
-    moreMenuItems() {
-      return [
-        {
-          title: 'Edit task',
-          icon: 'pen',
-          event: 'task-column:edit',
-        },
-        {
-          title: 'Delete task',
-          icon: 'trash-alt',
-          event: 'task-column:delete',
-        },
-      ];
-    },
     ...mapGetters('boards', ['getBoard']),
-  },
-  components: {
-    DropdownMenu,
   },
 };
 </script>
@@ -137,7 +139,7 @@ export default {
   grid-template-areas:
     "name button"
     "content content";
-  grid-template-columns: 1fr 1rem;
+  grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr;
   margin-bottom: 0.5rem;
   padding: 0.75rem;
@@ -148,7 +150,8 @@ export default {
     margin-bottom: 0rem;
   }
 
-  &:hover {
+  &:hover,
+  &.focused {
     background-color: var(--task-background-color-hover);
   }
 
@@ -158,11 +161,21 @@ export default {
     white-space: normal;
     grid-area: name;
     font-size: var(--task-name-font-size);
+    padding: 0.375rem 0;
   }
 
   .task-more-icon {
     color: rgba(0, 0, 0, 0.65);
     grid-area: button;
+    height: 1rem;
+    padding: 0.375rem;
+    transition: var(--global-transition);
+    border-radius: var(--global-border-radius);
+
+    &:hover,
+    &.focused {
+      background-color: rgba(31, 60, 73, 0.08);
+    }
   }
 
   .task-description {

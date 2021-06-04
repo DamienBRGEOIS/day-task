@@ -4,17 +4,20 @@
     <router-view />
     <notification-container />
     <confirm-modal />
+    <dropdown-menu />
   </div>
 </template>
 <script>
 import AppNav from '@/components/AppNav.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
-import ModalEventBus from '@/events/modal-event-bus';
+import DropdownMenu from '@/components/DropdownMenu.vue';
 import NotificationContainer from '@/components/NotificationContainer.vue';
+import ModalEventBus from '@/events/ModalEventBus';
 
 export default {
   components: {
     ConfirmModal,
+    DropdownMenu,
     NotificationContainer,
     AppNav,
   },
@@ -22,6 +25,9 @@ export default {
     ModalEventBus.$on('modal:confirm-action', ({ action, params }) => {
       action(...params);
     });
+  },
+  beforeDestroy() {
+    ModalEventBus.$off();
   },
 };
 </script>

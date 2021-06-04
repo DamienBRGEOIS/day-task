@@ -19,15 +19,9 @@
         @editableText:text-edited="onTextEdited"
       />
     </div>
-    <dropdown-menu
-      :menu-items="moreMenuItems"
-      @board-column:delete="confirmDeleteColumn"
-      @board-column:edit="editColumnName"
-    >
-      <div class="column-more-icon">
-        <font-awesome-icon icon="ellipsis-h" />
-      </div>
-    </dropdown-menu>
+    <div class="column-more-icon" @click.stop.prevent="onMoreButtonClicked">
+      <font-awesome-icon icon="ellipsis-h" />
+    </div>
     <div class="tasks-container" v-if="column.tasks && column.tasks.length > 0">
       <task
         v-for="(task, $taskIndex) in column.tasks"
@@ -73,9 +67,9 @@
 </template>
 
 <script>
-import DropdownMenu from '@/components/DropdownMenu.vue';
+import DropdownEventBus from '@/events/DropdownEventBus';
 import EditableText from '@/components/EditableText.vue';
-import ModalEventBus from '@/events/modal-event-bus';
+import ModalEventBus from '@/events/ModalEventBus';
 import MorphingButton from '@/components/MorphingButton.vue';
 import Task from '@/components/Task.vue';
 import { mapActions, mapGetters } from 'vuex';
@@ -102,20 +96,6 @@ export default {
     };
   },
   computed: {
-    moreMenuItems() {
-      return [
-        {
-          title: 'Edit column',
-          icon: 'pen',
-          event: 'board-column:edit',
-        },
-        {
-          title: 'Delete column',
-          icon: 'trash-alt',
-          event: 'board-column:delete',
-        },
-      ];
-    },
     ...mapGetters('boards', ['getBoard']),
   },
   methods: {
@@ -222,6 +202,39 @@ export default {
     editColumnName() {
       this.$refs.columnName.enableEditMode();
     },
+    disableDrag() {
+      this.isDraggable = false;
+    },
+    enableDrag() {
+      this.isDraggable = true;
+    },
+    onMoreButtonClicked(event) {
+      const target = event.currentTarget;
+
+      DropdownEventBus.$emit('open-dropdown-menu', {
+        target,
+        items: [
+          {
+            title: 'Edit column',
+            icon: 'pen',
+            action: this.editColumnName,
+          },
+          {
+            title: 'Delete column',
+            icon: 'trash-alt',
+            action: this.confirmDeleteColumn,
+          },
+        ],
+        onOpen: this.addFocusClass.bind(this, target),
+        onClose: this.removeFocusClass.bind(this, target),
+      });
+    },
+    addFocusClass(target) {
+      target.classList.add('focused');
+    },
+    removeFocusClass(target) {
+      target.classList.remove('focused');
+    },
     ...mapActions('boards', [
       'updateColumnWithId',
       'createTask',
@@ -230,17 +243,10 @@ export default {
       'moveTaskWithId',
       'moveColumnWithId',
     ]),
-    disableDrag() {
-      this.isDraggable = false;
-    },
-    enableDrag() {
-      this.isDraggable = true;
-    },
   },
   components: {
     Task,
     MorphingButton,
-    DropdownMenu,
     EditableText,
   },
 };
@@ -279,14 +285,16 @@ export default {
   }
 
   .column-more-icon {
+    border-radius: var(--global-border-radius);
     cursor: pointer;
     font-size: 1rem;
     grid-area: column-button;
+    height: 1rem;
     padding: 0.375rem;
-    border-radius: var(--global-border-radius);
     transition: var(--global-transition);
 
-    &:hover {
+    &:hover,
+    &.focused {
       background-color: rgba(31, 60, 73, 0.08);
     }
   }
