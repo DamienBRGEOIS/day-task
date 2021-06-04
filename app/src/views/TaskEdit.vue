@@ -11,7 +11,7 @@
           @keyup.enter="updateTask"
         />
       </div>
-      <small>In the column {{ board.name }}</small>
+      <small>In the column {{ column.name }}</small>
       <div class="task-description-container">
         <textarea
           id="task-description"
@@ -46,7 +46,7 @@ export default {
     updateTask() {
       this.updateTaskWithId({
         boardId: this.board._id,
-        columnId: this.columnId,
+        columnId: this.column._id,
         taskId: this.taskId,
         task: {
           name: this.name,
@@ -63,10 +63,10 @@ export default {
       }
       return this.getTaskWithId;
     },
-    columnId() {
+    column() {
       return this.board.columns.find(
         (column) => column.tasks.findIndex((task) => task._id === this.taskId) !== -1,
-      )._id;
+      );
     },
     getTaskWithId() {
       const tasks = this.board.columns.map((column) => column.tasks).flat();
