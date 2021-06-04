@@ -1,26 +1,22 @@
 <template>
-  <div class="task-view">
-    <div class="task-details" v-if="board && task">
-      <div class="task-name-container">
-        <input
-          id="task-name"
-          name="task-name"
-          type="text"
-          v-model="name"
-          @change="updateTask"
-          @keyup.enter="updateTask"
-        />
-      </div>
-      <small>In the column {{ column.name }}</small>
-      <div class="task-description-container">
-        <textarea
-          id="task-description"
-          name="task-description"
-          v-model="description"
-          @change="updateTask"
-        ></textarea>
-      </div>
-    </div>
+  <div class="task-view" v-if="board && task">
+    <input
+      id="task-name"
+      name="task-name"
+      type="text"
+      v-model="name"
+      @change="updateTask"
+      @keyup.enter="updateTask"
+    />
+    <small class="task-infos">
+      In the column <span id="column-name">{{ column.name }}</span>
+    </small>
+    <textarea
+      id="task-description"
+      name="task-description"
+      v-model="description"
+      @change="updateTask"
+    ></textarea>
   </div>
 </template>
 
@@ -84,8 +80,13 @@ export default {
   background-color: var(--modal-background-color);
   border-radius: var(--global-border-radius);
   box-shadow: var(--task-shadow);
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "title"
+    "infos"
+    "content";
   height: 25rem;
   margin: 0 auto;
   max-width: 43.75rem;
@@ -93,37 +94,39 @@ export default {
   position: relative;
   top: calc(50% - 15.625rem);
   user-select: none;
+  padding: 2rem;
 
-  .task-details {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 1rem;
+  #task-name {
+    grid-area: title;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    width: 100%;
+  }
 
-    .task-name-container {
-      #task-name {
-        background-color: transparent;
-        border: none;
-        font-size: var(--global-font-size);
-        font-weight: 600;
-        line-height: 1.5;
-        width: 41.875rem;
-      }
+  .task-infos {
+    grid-area: infos;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 1rem;
+
+    #column-name {
+      text-transform: uppercase;
+      font-weight: 600;
     }
-    .task-description-container {
-      #task-description {
-        background-color: transparent;
-        border: none;
-        height: 19.6875rem;
-        height: 25rem;
-        line-height: 1.5;
-        margin-top: 1rem;
-        padding: 0.5rem 0;
-        resize: none;
-        width: 41.875rem;
-      }
-    }
+  }
+
+  #task-description {
+    background-color: transparent;
+    border: none;
+    line-height: 1.5;
+    padding: 0.5rem 0;
+    resize: none;
+    height: 100%;
+    width: 100%;
+    grid-area: content;
   }
 }
 </style>
